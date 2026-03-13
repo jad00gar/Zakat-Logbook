@@ -1,143 +1,214 @@
 ## Disclaimer
 
-This tool is provided for personal organisational use only. It is not a fatwa or religious ruling. Nisab values, calculation methods, and what qualifies as zakatable wealth can vary between scholars and schools of thought. Always consult a qualified Islamic scholar regarding your specific Zakat obligations.
+This tool is provided for personal organisational use only. It is not a fatwa or religious ruling. Nisab values, calculation methods, and what qualifies as zakatable wealth can differ between scholars and schools of thought. Always consult a qualified Islamic scholar regarding your specific Zakat obligations.
 
-# Zakat Tracker 🌙
+# Zakat-LogBook 🌙
 
-A fully-featured Microsoft Excel workbook for tracking annual Zakat obligations, charitable giving, and payment history — generated entirely from a Python script using `openpyxl`.
+> A comprehensive Microsoft Excel workbook for tracking annual Zakat obligations and all charitable giving — generated entirely from a Python script.
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue) ![openpyxl](https://img.shields.io/badge/openpyxl-3.0%2B-green) ![License](https://img.shields.io/badge/License-MIT-yellow)
+![Version](https://img.shields.io/badge/Version-v3.0-green)
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![openpyxl](https://img.shields.io/badge/openpyxl-3.0%2B-brightgreen)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+![Excel](https://img.shields.io/badge/Excel-2016%2B-orange)
 
 ---
 
-## What It Does
+## Overview
 
-Zakat Tracker helps you:
-- Calculate your annual Zakat obligation based on gold price, Nisab threshold, and net zakatable assets
-- Track all charitable payments (Zakat, Sadaqah, Fitrana, Qurbani, and more) in a running ledger
-- See how much has been paid, what's still outstanding, and when the next Zakat year is due
-- Generate per-person and per-year reports on your giving history
+Zakat-LogBook helps you:
+
+- Calculate your annual Zakat obligation based on live gold price, Nisab threshold, and net zakatable assets
+- Track all charitable payments (Zakat, Sadaqah, Fitrana, Qurbani, and more) in a searchable running ledger
+- Monitor payment status per year — paid in full, partially paid, or not started
+- See unpaid Zakat carried forward across years
+- Generate detailed per-person and per-year reports on all giving history
+- Get a live Nisab dollar threshold by entering today's gold price
 
 ---
 
 ## Quick Start
 
-**Requirements:** Python 3.8+ and one library.
-
+**Step 1 — Install the dependency:**
 ```bash
 pip install openpyxl
-python generate_zakat_tracker.py
 ```
 
-This produces `Zakat_Tracker.xlsx` in your current directory. Open it in Microsoft Excel (recommended) or LibreOffice Calc.
+**Step 2 — Generate the workbook:**
+```bash
+python generate_zakat_logbook.py
+```
+
+This produces `Zakat-LogBook.xlsx` in your current directory. Open it in Microsoft Excel.
 
 ---
 
 ## Workbook Structure
 
-The workbook contains 8 sheets:
+8 sheets, purpose-built and fully linked to each other:
 
 | Sheet | Purpose |
-|-------|---------|
-| **Guide** | Reference sheet — colour coding legend, usage guide, Nisab explanation, FAQ |
+|---|---|
+| **Guide** | Reference sheet — colour legend, usage guide, Nisab explanation, FAQ |
 | **Settings** | Configure payment types, transfer services, recipients, and Nisab values |
 | **Zakat Summary** | Main annual tracker — one row per Zakat year, all calculations automatic |
-| **Stocks** | Stock and investment account balances per year |
-| **Cash** | Cash and liquid asset balances per year |
-| **Debts** | Outstanding debt balances per year |
-| **Ledger** | Every individual payment with running totals |
-| **Reports** | Filter by recipient and year, breakdown by payment type |
+| **Stocks** | Stock and investment account balances, one row per year |
+| **Cash** | Cash and liquid asset balances, one row per year |
+| **Debts** | Outstanding debt balances, one row per year |
+| **Ledger** | Every individual payment with running totals — the core log |
+| **Reports** | Filter by recipient and year, breakdown by type, service fee summary |
 
 ---
 
 ## Features
 
-### Zakat Summary Sheet
-- **14 columns** tracking every component of your annual Zakat calculation:
-  - Stocks, Cash, Gold value, Debts auto-pulled from their sheets by matching date
-  - Net Zakatable Assets = Stocks + Cash + Gold − Debts
-  - Nisab Threshold = Gold price × 2.7315 oz (= 85 grams) — configurable in Settings
-  - Zakat Due = 2.5% of full net wealth if assets ≥ Nisab (majority scholarly position)
-  - Paid This Period pulled automatically from Ledger entries
-  - Running Balance — cumulative outstanding Zakat across years
-  - **Status indicator** — ✅ Paid in Full / ⚠️ Partially Paid / ❌ Not Started
-  - **Brought Forward** — unpaid Zakat carried in from the prior year
-- **Duplicate date warning** — highlights red if you accidentally enter the same Zakat year twice
-- **Summary Dashboard** — 6 totals cards: Total Owed, Total Paid, Sadaqah, Fitrana, Qurbani, Outstanding Balance
-- **Hawl Tracker** — calculates your next Zakat due date (last date + 354 days), shows countdown and live status emoji (🕌 Due Now / ⚠️ Due Soon / ✅ In Progress)
-- Sort and filter on all columns
+### Zakat Summary — 14 Columns
+
+One row per Zakat year. Enter your date and gold price — everything else calculates automatically.
+
+| Column | What it does |
+|---|---|
+| A — Zakat Date | Enter your annual Zakat calculation date |
+| B — Stock Portfolio | Auto-pulled from Stocks sheet (matched by row position) |
+| C — Cash & Liquid | Auto-pulled from Cash sheet |
+| D — Total Debts | Auto-pulled from Debts sheet |
+| E — Gold Price ($/oz) | Enter the gold spot price on this date |
+| F — Gold Owned (oz) | Enter your troy oz of gold |
+| G — Value of Gold | = Gold Price × oz (auto) |
+| H — Net Zakatable Assets | = Stocks + Cash + Gold − Debts (auto) |
+| I — Nisab Threshold | = Gold Price × 2.7315 oz (auto, configurable in Settings) |
+| J — Zakat Due (2.5%) | = 2.5% of Net Assets if ≥ Nisab, else $0 (auto) |
+| K — Paid This Period | Auto-summed from Ledger entries for this date range |
+| L — Running Balance | Cumulative unpaid balance across all years (auto) |
+| M — Status | ✅ Paid in Full / ⚠️ Partially Paid / ❌ Not Started (auto) |
+| N — Brought Forward | Unpaid balance carried in from the prior year (auto) |
+
+**Additional Summary features:**
+- **Duplicate date warning** — highlights red if you enter the same year twice
+- **Dashboard** — 6 totals cards: Total Owed, Total Paid, Sadaqah, Fitrana, Qurbani, Outstanding Balance
+- **Hawl Tracker** — calculates your next Zakat due date (last date + 354 days), shows live countdown and status emoji
 
 ### Stocks / Cash / Debts Sheets
+
 - 10 rows for 10 years of data
-- 6 configurable account columns per sheet + auto-summing Total column
-- Values auto-link to Zakat Summary when dates match
+- 6 named account columns per sheet with an auto-summing Total column
+- Totals link automatically to Zakat Summary by row position
 - Sort and filter on all columns
 
-### Ledger Sheet
-- **200 rows** for individual payment records
-- Columns: Date, Type, Service Used, Given To, Details/Notes, Amount, Fees, Total Paid, Running Total
-- **Dropdown validation** on Type (from Settings), Service (from Settings), and Given To / Recipient (from Settings)
-- **No-negative validation** on Amount and Fees columns
-- **Search bar** — type any keyword to highlight matching rows in yellow across Type, Given To, and Details columns
-- Running cumulative total column updates automatically as you enter payments
+### Ledger — The Core Log
+
+200 rows for recording every individual payment you make.
+
+| Column | Details |
+|---|---|
+| Date | Payment date |
+| Type | Dropdown — Zakat, Sadaqah, Fitrana, Qurbani + any you add in Settings |
+| Service Used | Dropdown — Remitly, Wise, Bank Transfer, Cash + any you add in Settings |
+| Given To | Dropdown — Islamic Relief USA, Zakat Foundation + any you add in Settings |
+| Details / Notes | Free text |
+| Amount ($) | Payment amount (validated: no negatives) |
+| Fees ($) | Transfer fees (validated: no negatives) |
+| Total Paid ($) | = Amount + Fees (auto) |
+| Running Total ($) | Cumulative sum of all payments (auto) |
+
+**Ledger features:**
+- **Search bar** — type any keyword to instantly highlight matching rows in yellow across Type, Given To, and Notes columns
+- **4 dropdown validations** — Type, Service Used, and Given To all link to Settings lists; Amount/Fees reject negative values
+- **Running total** — updates automatically as you add entries
 - Sort and filter on all columns
 
 ### Reports Sheet
-- **Person filter** — dropdown of all unique names from the Ledger
-- **Year filter** — filter by specific year or view all years at once
-- **Breakdown by payment type** — SUMPRODUCT totals for every type in Settings, respecting both filters
-- **100-row detail table** — shows every matching transaction for the selected person/year
-- **Service fee summary table** — all-time fees and payment counts per transfer service
+
+- **Person filter** — dropdown of all unique recipient names extracted automatically from the Ledger
+- **Year filter** — select a specific year or view all years at once; all cards update instantly
+- **Breakdown by payment type** — shows total given to the selected person per type (Zakat, Sadaqah, etc.), respecting both filters
+- **100-row transaction detail table** — every matching payment for the selected person and year
+- **Service fee summary** — all-time fees, amounts, and payment counts per transfer service
 
 ### Settings Sheet
-- **Payment Types** — 30 slots (pre-filled: Zakat, Sadaqah, Fitrana, Qurbani). Add your own.
-- **Transfer Services** — 30 slots (pre-filled: Remitly, Wise, Bank Transfer, Cash, Zelle). Add your own.
-- **Recipients / Given To** — 30 slots (pre-filled: Islamic Relief USA, Zakat Foundation, LaunchGood, Local Mosque, Family Member). Add your own.
-- **Nisab Settings** — Gold Nisab oz (default 2.7315 = 85g), Silver Nisab oz (19.1358 = 595g). Change these if your scholar uses a different standard.
-- **Live Nisab Calculator** — enter today's gold price to instantly see the current Nisab dollar threshold
+
+Everything configurable in one place. Changes take effect immediately in all dropdowns.
+
+| Column | Contents | Pre-filled examples |
+|---|---|---|
+| B — Payment Types | 30 slots | Zakat, Sadaqah, Fitrana, Qurbani |
+| D — Transfer Services | 30 slots | Remitly, Western Union, Wise, PayPal, Zelle, Bank Transfer, Cash, Check, Venmo, CashApp, MoneyGram, Other |
+| F — Recipients / Given To | 30 slots | Islamic Relief USA, Zakat Foundation, LaunchGood, Local Mosque, Family Member |
+
+**Nisab Settings:**
+- Gold Nisab oz: **2.7315** (= 85g ÷ 31.1035 g/oz) — stored in cell D44
+- Silver Nisab oz: **19.1358** (= 595g ÷ 31.1035 g/oz) — stored in cell D45
+- Both values are editable if your scholar uses a different standard
+
+**Live Nisab Calculator:**
+- Enter today's gold price → instantly see the current Nisab dollar threshold
+- Silver threshold shown alongside for comparison
 
 ---
 
 ## How Zakat Is Calculated
 
 ```
-Net Zakatable Assets (H) = Stocks + Cash + Gold Value − Debts
-Gold Value               = Gold Price ($/oz) × Gold Owned (oz)
-Nisab Threshold (I)      = Gold Price ($/oz) × 2.7315 oz (= 85g)
+Net Zakatable Assets = Stocks + Cash + (Gold Price × Gold oz) − Debts
+Nisab Threshold      = Gold Price × 2.7315 oz  (≈ value of 85 grams of gold)
 
-If H ≥ I:  Zakat Due = H × 2.5%
-If H < I:  Zakat Due = $0
+If Net Assets ≥ Nisab:   Zakat Due = Net Assets × 2.5%
+If Net Assets < Nisab:   Zakat Due = $0
 ```
 
-**Important:** Zakat is calculated on your **entire** net zakatable wealth, not just the amount above Nisab. This follows the majority scholarly position of all four major Sunni schools (Hanafi, Maliki, Shafi'i, Hanbali). The Nisab is a qualifying threshold — once crossed, 2.5% applies to the full amount.
+**Important:** Zakat is calculated on your **entire** net zakatable wealth — not just the amount above Nisab. This follows the majority position of all four major Sunni schools (Hanafi, Maliki, Shafi'i, Hanbali). The Nisab is a qualifying threshold only. Once crossed, 2.5% applies to the full amount.
 
 ---
 
 ## Customising the Workbook
 
-### Adding new payment types, services, or recipients
-Go to the **Settings** sheet and type into any empty slot in the relevant column. The dropdowns in the Ledger update automatically.
+### Add a new payment type, service, or recipient
+Go to **Settings** and type into any empty slot in the relevant column (B, D, or F). The corresponding dropdown in the Ledger updates immediately — no formulas to edit.
 
-### Changing the Nisab oz value
-Go to **Settings → Nisab Settings** and edit cell D44 (Gold) or D45 (Silver). All Nisab calculations in Zakat Summary update immediately.
+### Change the Nisab oz value
+**Settings → Nisab Settings → cell D44** (gold) or **D45** (silver). All Nisab calculations in Zakat Summary update instantly.
 
-### Checking today's Nisab
-Go to **Settings → Current Nisab Calculator** and enter the current gold spot price in cell B49.
+### Check today's Nisab threshold
+**Settings → Current Nisab Calculator → enter gold price in B49.** The dollar threshold shows immediately.
 
-### Adding more account columns
-The Stocks, Cash, and Debts sheets have 6 account columns each. To add more, insert a column before the Total column — the SUM formula will expand automatically.
+### Add more years
+The Zakat Summary, Stocks, Cash, and Debts sheets each have 10 rows (for 10 years). To add more, insert rows before the last data row — formulas will expand automatically.
+
+### Change account names
+Open `generate_zakat_logbook.py` and edit the account lists in `main()`:
+
+```python
+build_asset_sheet(wb, 'Stocks',
+    ["TD Ameritrade", "Charles Schwab", "Fidelity", "Vanguard", "Robinhood", "Other Account"],
+    "Total Portfolio")
+```
+
+Then re-run the script to get a fresh workbook with your account names.
 
 ---
 
 ## Regenerating the Workbook
 
-If you want a fresh copy (e.g. to reset all data while keeping the structure):
+To get a clean blank copy (all structure and formulas intact, all data cleared):
 
 ```bash
-python generate_zakat_tracker.py
+python generate_zakat_logbook.py
 ```
 
-To customise the default values (account names, preset types/services/recipients, Nisab defaults), edit the constants at the top of each `build_*` function in `generate_zakat_tracker.py`.
+> **Tip:** Keep your personal working copy saved under a different name (e.g. `My_Zakat_2025.xlsx`) so you never accidentally overwrite your data by re-running the script.
+
+---
+
+## Repository Structure
+
+```
+zakat-logbook/
+├── generate_zakat_logbook.py   # Python script — generates the entire workbook
+├── Zakat-LogBook.xlsx          # Pre-built blank template (ready to use)
+├── README.md                   # This file
+├── requirements.txt            # openpyxl>=3.0.0
+└── LICENSE                     # MIT
+```
 
 ---
 
@@ -147,21 +218,48 @@ To customise the default values (account names, preset types/services/recipients
 openpyxl>=3.0.0
 ```
 
-Install with:
 ```bash
 pip install openpyxl
 # or
 pip install -r requirements.txt
 ```
 
+**Python:** 3.8 or higher
+
 ---
 
 ## Compatibility
 
-- **Microsoft Excel 2016+** — fully supported, all features work
-- **Microsoft Excel 365** — fully supported
-- **LibreOffice Calc** — mostly works; some conditional formatting and emoji rendering may differ
-- **Google Sheets** — import works but dropdowns linked to named ranges may need manual re-linking
+| Platform | Status |
+|---|---|
+| Microsoft Excel 2016+ | ✅ Fully supported |
+| Microsoft Excel 365 | ✅ Fully supported |
+| LibreOffice Calc | ⚠️ Mostly works — some emoji rendering and conditional formatting may differ |
+| Google Sheets | ⚠️ Import works — dropdown validations linked to named ranges may need re-linking |
+| macOS Excel | ✅ Fully supported |
+
+---
+
+## Versioning
+
+| Version | Status | Notes |
+|---|---|---|
+| v3.0 | ✅ Current | Finalized release — Recipients/Given To dropdown added, clean regeneration script |
+| v8 (legacy) | Archived | Previous iterative build, replaced by v3.0 |
+
+Future changes release as **v3.1, v3.2**, etc. The version is set in `generate_zakat_logbook.py`:
+
+```python
+VERSION = "v3.0"   # bump this for future releases
+```
+
+---
+
+## Contributing
+
+Contributions are welcome. If you find a bug, have a feature request, or want to add support for a different Nisab calculation method or currency, open an issue or submit a pull request.
+
+Please keep pull requests focused — one feature or fix per PR.
 
 ---
 
@@ -171,13 +269,6 @@ pip install -r requirements.txt
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
+MIT License — see [LICENSE](LICENSE) for full text.
 
-You are free to use, modify, and share this for personal or commercial purposes. The only requirement is that you keep the copyright notice in place.
-
----
-
-## Contributing
-
-Contributions welcome. If you find a bug, have a feature request, or want to add support for a different Nisab calculation method, open an issue or submit a pull request.
-
+Free to use, modify, and share for personal or commercial purposes. The only requirement is keeping the copyright notice in place.
