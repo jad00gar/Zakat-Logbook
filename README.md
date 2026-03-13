@@ -3,8 +3,13 @@
 This tool is provided for personal organisational use only. It is not a fatwa or religious ruling. Nisab values, calculation methods, and what qualifies as zakatable wealth can differ between scholars and schools of thought. Always consult a qualified Islamic scholar regarding your specific Zakat obligations.
 
 # Zakat-LogBook 🌙
+Happy to help if any one have any questions or need help.
 
-> A comprehensive Microsoft Excel workbook for tracking annual Zakat obligations and all charitable giving — generated entirely from a Python script.
+
+> A comprehensive Microsoft Excel workbook for tracking annual Zakat obligations and all charitable giving.
+I customized this over the years and felt it might be a good thing to share incase anyone is intrested.
+
+This workbook allows you to keep track of your zakat based on every year how much you have paid and how much is owe.
 
 ![Version](https://img.shields.io/badge/Version-v3.0-green)
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
@@ -28,20 +33,10 @@ Zakat-LogBook helps you:
 ---
 
 ## Quick Start
+Simply download the Zakat-Logbook.xlsx file and start using it. Check the guide page for any questions or reach out to me.
 
-**Step 1 — Install the dependency:**
-```bash
-pip install openpyxl
-```
+Always start with Adding entry in Zakat Summary workbook. To add more, insert rows before the last data row — formulas will expand automatically.
 
-**Step 2 — Generate the workbook:**
-```bash
-python generate_zakat_logbook.py
-```
-
-This produces `Zakat-LogBook.xlsx` in your current directory. Open it in Microsoft Excel.
-
----
 
 ## Workbook Structure
 
@@ -192,46 +187,16 @@ Then re-run the script to get a fresh workbook with your account names.
 
 ## Regenerating the Workbook
 
-To get a clean blank copy (all structure and formulas intact, all data cleared):
-
-```bash
-python generate_zakat_logbook.py
-```
+Always Start by downloading the Sheet and **SAVE AS** new file
 
 > **Tip:** Keep your personal working copy saved under a different name (e.g. `My_Zakat_2025.xlsx`) so you never accidentally overwrite your data by re-running the script.
 
 ---
 
-## Repository Structure
 
-```
-zakat-logbook/
-├── generate_zakat_logbook.py   # Python script — generates the entire workbook
-├── Zakat-LogBook.xlsx          # Pre-built blank template (ready to use)
-├── README.md                   # This file
-├── requirements.txt            # openpyxl>=3.0.0
-└── LICENSE                     # MIT
-```
-
----
-
-## Requirements
-
-```
-openpyxl>=3.0.0
-```
-
-```bash
-pip install openpyxl
-# or
-pip install -r requirements.txt
-```
-
-**Python:** 3.8 or higher
-
----
 
 ## Compatibility
+I might be wrong but it should work with these platforms
 
 | Platform | Status |
 |---|---|
