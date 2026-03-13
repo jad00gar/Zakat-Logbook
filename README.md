@@ -12,8 +12,6 @@ I customized this over the years and felt it might be a good thing to share inca
 This workbook allows you to keep track of your zakat based on every year how much you have paid and how much is owe.
 
 ![Version](https://img.shields.io/badge/Version-v3.0-green)
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![openpyxl](https://img.shields.io/badge/openpyxl-3.0%2B-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![Excel](https://img.shields.io/badge/Excel-2016%2B-orange)
 
