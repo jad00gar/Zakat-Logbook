@@ -91,9 +91,12 @@ One row per Zakat year. Enter your date and gold price — everything else calcu
 ### Stocks / Cash / Debts Sheets
 
 - 10 rows for 10 years of data
-- 6 named account columns per sheet with an auto-summing Total column
-- Totals link automatically to Zakat Summary by row position
+- 6 named account columns per sheet with an auto-summing Total column that links automatically to Zakat Summary
 - Sort and filter on all columns
+- Default account names (all editable in the script):
+  - **Stocks:** TD Ameritrade, Charles Schwab, Fidelity, Vanguard, Robinhood, Other Account
+  - **Cash:** Chase Checking, Chase Savings, Bank of America, Money Market, Cash on Hand, Other Liquid
+  - **Debts:** Chase Credit Card, Citi Credit Card, Amex Credit Card, Car Loan, Personal Loan, Other Debt
 
 ### Ledger — The Core Log
 
@@ -245,7 +248,6 @@ pip install -r requirements.txt
 | Version | Status | Notes |
 |---|---|---|
 | v3.0 | ✅ Current | Finalized release — Recipients/Given To dropdown added, clean regeneration script |
-| v8 (legacy) | Archived | Previous iterative build, replaced by v3.0 |
 
 Future changes release as **v3.1, v3.2**, etc. The version is set in `generate_zakat_logbook.py`:
 
@@ -264,7 +266,6 @@ Please keep pull requests focused — one feature or fix per PR.
 ---
 
 
-
 ---
 
 ## License
@@ -272,3 +273,4 @@ Please keep pull requests focused — one feature or fix per PR.
 MIT License — see [LICENSE](LICENSE) for full text.
 
 Free to use, modify, and share for personal or commercial purposes. The only requirement is keeping the copyright notice in place.
+
